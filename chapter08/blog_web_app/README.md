@@ -45,3 +45,10 @@
 - 이번 프로젝트에서는 화면과 관련된 모든 위젯을 screen 폴더에 저장
 - 블로그 웹 앱을 실행했을때 가장 먼저 실행되는 홈화면 제작
 - 생성자를 const로 지정하여 인스턴스 위젯을 재활용되어 하드웨어 리소스를 적세 사용하게 
+
+## 구현하기
+### ensureInitialized() 함수
+- 플러터 프로젝트를 실행하는 runApp() 함수는 내부적으로 WidgetsFlutterBinding.ensureInitialized() 함수를 실행
+- ensureInitialized() 함수는 플러터 프레임워크가 앱을 실행할 준비가 됐는지 확인하는 역할
+- 일반적으로 개발자가 직접 이 함수를 실행할 필요는 없지만 StatelessWidget에서 WebViewController를 프로퍼티로 인스턴화 하려면 직접 실행해야 함
+- ensureInitialized() 함수를 직접 실행하지 않고 WebViewController를 정상적으로 인스턴스화 하는 방법은 StatefulWidget의 initState() 함수에서 진행
