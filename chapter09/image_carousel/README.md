@@ -69,5 +69,11 @@
 ## 상태바 색상 변경
 - 상태바란 앱을 실행 중에 핸드폰 배터리, 시간, 와이파이 연결 상태 등을 보여주는 영역
 
+## 타이머 추가
+- Timer 클래스를 사용해서 액자가 자동으로 롤링되는 기능 추가
+- Timer 클래스를 추가하려면 HomeScreen을 StatelessWidget이 아닌 StatefulWidget으로 변경 해야 함
+- StatelessWidget을 그대로 사용하면 Timer를 등록할 수 있는 위차가 build()함수밖에 없음
+  - 이렇게 하게 되면 위젯이 새로 생성될 떄마다, build() 함수가 불릴 때마다 매번 새로운 Timer가 생성됨 -> 메모리 누수
+- StatefulWidget의 initState()를 사용하면 State가 생성될 떄 딱 한번만 Timer를 생성할 수 있음
 
     
