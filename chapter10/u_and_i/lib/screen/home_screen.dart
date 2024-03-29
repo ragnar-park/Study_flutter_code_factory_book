@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+
+
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  DateTime firstDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +30,46 @@ class HomeScreen extends StatelessWidget {
           // 반대쪽 최대 크기로 늘리기
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _DDAY(),
+            _DDAY(
+              // 하느 눌렀을 떄 실행할 함수 전달
+              onHeartPressed: onHeartPressed,
+              firstDay: firstDay,
+            ),
             _CoupleImage(),
           ],
         ),
       ),
     );
   }
+
+  void onHeartPressed() {
+  //  상태 변경 시 setState() 함수 실행
+    setState(() {
+      firstDay = firstDay.subtract(Duration(days: 1));
+    });
+  }
+
 }
 
+
+
 class _DDAY extends StatelessWidget {
+
+  // 하트 눌렀을 때 실행할 함수
+  final GestureTapCallback onHeartPressed;
+  // 사귀기 시작한 날
+  final DateTime firstDay;
+
+  _DDAY({
+    required this.onHeartPressed,
+    required this.firstDay,
+  });
+
   @override
   Widget build(BuildContext context) {
     // 테마 불러오기
     final textTheme = Theme.of(context).textTheme;
+    final now = DateTime.now(); // 현재 날짜 시간
 
     return Column(
       children: [
@@ -47,13 +84,13 @@ class _DDAY extends StatelessWidget {
           style: textTheme.bodyText1,
         ),
         Text( // 임시로 지정한 만난 날짜
-          '1998. 03. 07',
+          '${firstDay.year}.${firstDay.month}.${firstDay.day}',
           style: textTheme.bodyText2,
         ),
         const SizedBox(height: 16.0),
         IconButton( // 하트 아이콘 버튼
             iconSize: 60.0,
-            onPressed: () {},
+            onPressed: onHeartPressed,
             icon: Icon(
               Icons.favorite,
               color: Colors.red,
@@ -61,7 +98,8 @@ class _DDAY extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
         Text(
-          'D+365',
+          // DDAY 계산
+          'D+${DateTime(now.year, now.month, now.day).difference(firstDay).inDays + 1}',
           style: textTheme.headline2,
         )
       ],
