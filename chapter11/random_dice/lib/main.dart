@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:random_dice/screen/home_screen.dart';
 import 'package:random_dice/const/colors.dart';
+import 'package:random_dice/screen/root_screen.dart';
 
 void main() {
   runApp(
@@ -23,7 +24,7 @@ void main() {
           backgroundColor: backgroundColor, // 배경 색
         ),
       ),
-      home: HomeScreen(),
+      home: RootScreen(),
     ),
   );
 }
