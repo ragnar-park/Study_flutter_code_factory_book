@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:random_dice/screen/home_screen.dart';
+import 'package:random_dice/screen/settings_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   // 사용할 탭 컨트롤러 선언
   TabController? controller;
+  double threshold = 2.7; // 민감도의 기본값 설정
 
   @override
   void initState() {
@@ -47,28 +50,18 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   List<Widget> renderChildren() {
     return [
-      Container(
-        // 홈탭
-        child: Center(
-          child: Text(
-            'Tab 1',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-      Container(
-        child: Center(
-          child: Text(
-            'Tab 2',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
+      HomeScreen(number: 1),
+      SettingsScreen(
+        threshold: threshold,
+        onThresholdChange: onThresholdChange,
       )
     ];
+  }
+
+  void onThresholdChange(double val) {
+    setState(() {
+      threshold = val;
+    });
   }
 
   BottomNavigationBar renderBottomNavigation() {
