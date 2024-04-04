@@ -54,6 +54,7 @@ class _HomeScreen extends State<HomeScreen> {
     return Center(
       child: CustomVideoPlayer(
         video: video!,
+        onNewVideoPressed: onNewVideoPressed,
       ), // 동영상 재생기 위젯
     );
   }
