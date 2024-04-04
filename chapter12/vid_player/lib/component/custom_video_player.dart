@@ -52,10 +52,31 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     // 동영상 비율에 따른 화면 렌더링
     return AspectRatio(
-      aspectRatio: videoController!.value.aspectRatio,
-      child: VideoPlayer(
-        videoController!,
-      ),
-    );
+        aspectRatio: videoController!.value.aspectRatio,
+        child: Stack(
+          children: [
+            VideoPlayer(
+              videoController!,
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Slider(
+                // 슬라이더가 이동할 때마다 실행할 함수
+                onChanged: (double val) {
+                  videoController!.seekTo(
+                    Duration(seconds: val.toInt()),
+                  );
+                },
+
+                // 동영상 재생 위치를 초 단위로 표현
+                value: videoController!.value.position.inSeconds.toDouble(),
+                min: 0,
+                max: videoController!.value.duration.inSeconds.toDouble(),
+              ),
+            )
+          ],
+        ));
   }
 }
