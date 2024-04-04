@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
+import 'dart:io'; // 파일 괸련 작업 패키지
 
 // 동영상 위젯 생성
 class CustomVideoPlayer extends StatefulWidget {
@@ -17,12 +19,42 @@ class CustomVideoPlayer extends StatefulWidget {
 }
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
+  // 동영상을 조작하는 컨트롤러
+  VideoPlayerController? videoController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeController();
+  }
+
+  initializeController() async {
+    final videoController = VideoPlayerController.file(
+      File(widget.video.path),
+    );
+
+    await videoController.initialize();
+
+    setState(() {
+      this.videoController = videoController;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'CustomVideoPlayer', // 샘플 텍스트
-        style: TextStyle(color: Colors.white),
+    // 동영상 컨트롤러가 준비 중일 때 로딩 표시
+    if (videoController == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    // 동영상 비율에 따른 화면 렌더링
+    return AspectRatio(
+      aspectRatio: videoController!.value.aspectRatio,
+      child: VideoPlayer(
+        videoController!,
       ),
     );
   }
