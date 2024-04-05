@@ -24,6 +24,9 @@ class CustomVideoPlayer extends StatefulWidget {
 }
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
+  // 동영상 조작하는 아이콘을 보일지 여부
+  bool showControls = false;
+
   // 동영상을 조작하는 컨트롤러
   VideoPlayerController? videoController;
 
@@ -84,64 +87,80 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     }
 
     // 동영상 비율에 따른 화면 렌더링
-    return AspectRatio(
-        aspectRatio: videoController!.value.aspectRatio,
-        child: Stack(
-          children: [
-            VideoPlayer(
-              videoController!,
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Slider(
-                // 슬라이더가 이동할 때마다 실행할 함수
-                onChanged: (double val) {
-                  videoController!.seekTo(
-                    Duration(seconds: val.toInt()),
-                  );
-                },
+    return GestureDetector(
+        onTap: () {
+          setState(() {
+            showControls = !showControls;
+          });
+        },
+        child: AspectRatio(
+            aspectRatio: videoController!.value.aspectRatio,
+            child: Stack(
+              children: [
+                VideoPlayer(
+                  videoController!,
+                ),
+                // 아이콘 버튼을 보일 때 화면을 어둡게 변경
+                if (showControls)
+                  Container(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Slider(
+                    // 슬라이더가 이동할 때마다 실행할 함수
+                    onChanged: (double val) {
+                      videoController!.seekTo(
+                        Duration(seconds: val.toInt()),
+                      );
+                    },
 
-                // 동영상 재생 위치를 초 단위로 표현
-                value: videoController!.value.position.inSeconds.toDouble(),
-                min: 0,
-                max: videoController!.value.duration.inSeconds.toDouble(),
-              ),
-            ),
-            // 오른쪽 위에 새 동영상 아이콘 위치
-            Align(
-              alignment: Alignment.topRight,
-              child: CustomIconButton(
-                onPressed: widget.onNewVideoPressed,
-                iconData: Icons.photo_camera_back,
-              ),
-            ),
-            // 동영상 재생 관련 아이콘 중앙에 위치
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomIconButton(
-                      // 되감기 버튼
-                      onPressed: onReversePressed,
-                      iconData: Icons.rotate_left),
-                  CustomIconButton(
-                      // 재생 버튼
-                      onPressed: onPlayPressed,
-                      iconData: videoController!.value.isPlaying
-                          ? Icons.pause
-                          : Icons.play_arrow),
-                  CustomIconButton(
-                    // 앞으로 감기 버튼
-                    onPressed: onForwardPressed, iconData: Icons.rotate_right,
+                    // 동영상 재생 위치를 초 단위로 표현
+                    value: videoController!.value.position.inSeconds.toDouble(),
+                    min: 0,
+                    max: videoController!.value.duration.inSeconds.toDouble(),
+                  ),
+                ),
+
+                // showControls가 ture일 때만 아이콘 보여주기
+                if (showControls)
+                  // 오른쪽 위에 새 동영상 아이콘 위치
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: CustomIconButton(
+                      onPressed: widget.onNewVideoPressed,
+                      iconData: Icons.photo_camera_back,
+                    ),
+                  ),
+                if (showControls)
+                  // 동영상 재생 관련 아이콘 중앙에 위치
+                  Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomIconButton(
+                            // 되감기 버튼
+                            onPressed: onReversePressed,
+                            iconData: Icons.rotate_left),
+                        CustomIconButton(
+                            // 재생 버튼
+                            onPressed: onPlayPressed,
+                            iconData: videoController!.value.isPlaying
+                                ? Icons.pause
+                                : Icons.play_arrow),
+                        CustomIconButton(
+                          // 앞으로 감기 버튼
+                          onPressed: onForwardPressed,
+                          iconData: Icons.rotate_right,
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            )
-          ],
-        ));
+              ],
+            )));
   }
 
   // 되감기 버튼 눌렀을 때 실행할 함수
