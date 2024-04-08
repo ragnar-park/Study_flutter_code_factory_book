@@ -106,23 +106,40 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                     color: Colors.black.withOpacity(0.5),
                   ),
                 Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Slider(
-                    // 슬라이더가 이동할 때마다 실행할 함수
-                    onChanged: (double val) {
-                      videoController!.seekTo(
-                        Duration(seconds: val.toInt()),
-                      );
-                    },
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          renderTimeTextFromDuration(
+                            videoController!.value.position,
+                          ),
+                          Expanded(
+                            child: Slider(
+                              // 슬라이더가 이동할 때마다 실행할 함수
+                              onChanged: (double val) {
+                                videoController!.seekTo(
+                                  Duration(seconds: val.toInt()),
+                                );
+                              },
 
-                    // 동영상 재생 위치를 초 단위로 표현
-                    value: videoController!.value.position.inSeconds.toDouble(),
-                    min: 0,
-                    max: videoController!.value.duration.inSeconds.toDouble(),
-                  ),
-                ),
+                              // 동영상 재생 위치를 초 단위로 표현
+                              value: videoController!.value.position.inSeconds
+                                  .toDouble(),
+                              min: 0,
+                              max: videoController!.value.duration.inSeconds
+                                  .toDouble(),
+                            ),
+                          ),
+                          renderTimeTextFromDuration(
+                            // 동영상 총 길이
+                            videoController!.value.duration,
+                          ),
+                        ],
+                      ),
+                    )),
 
                 // showControls가 ture일 때만 아이콘 보여주기
                 if (showControls)
@@ -161,6 +178,16 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   )
               ],
             )));
+  }
+
+  Widget renderTimeTextFromDuration(Duration duration) {
+    // Duration값을 보기 편한 형태로 변환
+    return Text(
+      '${duration.inMinutes.toString().padLeft(2, '0')}: ${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
+      style: TextStyle(
+        color: Colors.white,
+      ),
+    );
   }
 
   // 되감기 버튼 눌렀을 때 실행할 함수
