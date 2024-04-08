@@ -9,3 +9,10 @@
 - Duration 클래스 : 특정 날짜를 가리키는 DateTime과 다르게 기간을 표현할 수 있는 클래스
 - video_player 플러그인을 사용하면서 실행되고 있는 영상의 위치, 영상의 총 길이 등을 Duration클래스로 반환 받게 됨
 - 개발자가 선호하는 자료 형태와 사용자가 선호하는 자료 형태가 다르기 때문에 String값으로 Duration 클래스를 전환하는 게 중요
+
+## 핵심
+- Stack 위젯을 이용하면 위젯 위에 위젯을 쌓을 수 있음
+- Prositioned 위젯과 Align 위젯을 사용해서 Stack에서 위젯들을 정렬할 수 있음
+- image_picker 플러그인을 사용하면 간편하게 유저로부터 파일 선택을 입력받을 수 있음
+- 둉영상 파일의 위치만 알면 video_player 플러그인을 사용해서 손쉽게 동영상 재생 가
+- StatefulWidget의 생명주기 중 하나이ㅏㄴ didUpdateWidget() 함수를 오버라이드하면 StatefulWIdget의 매개변수가 변경되었을 때 특정 함수를 실행 가능
