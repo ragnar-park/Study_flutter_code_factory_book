@@ -5,6 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class HomeScreen extends StatelessWidget {
   static final LatLng companyLatLng = LatLng(37.5233273, 126.921252);
 
+  // 회사 위치 마커 선언
+  static final Marker marker =
+      Marker(markerId: MarkerId('company'), position: companyLatLng);
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,6 +37,7 @@ class HomeScreen extends StatelessWidget {
                           CameraPosition(
                               target: companyLatLng, zoom: 16 // 확대 정도
                               ),
+                      markers: Set.from([marker]),
                     ),
                   ),
                   Expanded(
