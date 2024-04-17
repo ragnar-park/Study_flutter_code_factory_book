@@ -9,14 +9,33 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: renderAppBar(),
-      body: GoogleMap(
-        initialCameraPosition:
-            //  CameraPosition은 카메라의 위치와 방향을 나타내는 클래스
-            CameraPosition(target: companyLatLng, zoom: 16 // 확대 정도
+        appBar: renderAppBar(),
+        body: Column(
+          children: [
+            Expanded(
+              flex: 2,
+              child: GoogleMap(
+                initialCameraPosition:
+                    //  CameraPosition은 카메라의 위치와 방향을 나타내는 클래스
+                    CameraPosition(target: companyLatLng, zoom: 16 // 확대 정도
+                        ),
+              ),
+            ),
+            Expanded(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.timelapse_outlined,
+                  color: Colors.blue,
+                  size: 50.0,
                 ),
-      ),
-    );
+                const SizedBox(height: 20.0),
+                ElevatedButton(onPressed: () {}, child: Text('출근하기')),
+              ],
+            ))
+          ],
+        ));
   }
 
   AppBar renderAppBar() {
