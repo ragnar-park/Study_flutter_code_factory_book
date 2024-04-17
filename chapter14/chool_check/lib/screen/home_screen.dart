@@ -9,6 +9,15 @@ class HomeScreen extends StatelessWidget {
   static final Marker marker =
       Marker(markerId: MarkerId('company'), position: companyLatLng);
 
+  static final Circle circle = Circle(
+    circleId: CircleId('choolCheckCircle'),
+    center: companyLatLng,
+    fillColor: Colors.blue.withOpacity(0.5), // 원의 색상
+    radius: 100, // 원의 반지름(미터단위)
+    strokeColor: Colors.blue, // 원의 테두리 색
+    strokeWidth: 1, // 원의 테두리 둒[
+  );
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -37,7 +46,8 @@ class HomeScreen extends StatelessWidget {
                           CameraPosition(
                               target: companyLatLng, zoom: 16 // 확대 정도
                               ),
-                      markers: Set.from([marker]),
+                      markers: Set.from([marker]), // Set로 Marker 제공
+                      circles: Set.from([circle]), // Set로 Circle 제공
                     ),
                   ),
                   Expanded(
